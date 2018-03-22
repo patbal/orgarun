@@ -21,7 +21,9 @@ class mainController extends AbstractController
      */
     public function homepage()
     {
-        return new Response('first but not last');
+        return $this->render('main/index.html.twig', [
+            'controller_name' => 'Controlleur principal'
+        ]);
     }
 
     /**
@@ -29,7 +31,9 @@ class mainController extends AbstractController
      */
     public function testslug($slug)
     {
-        return new Response('tu as tapé '.$slug.' dans la barre, hein ? C\'est la classe !);
+        $text = str_replace('-', ' ', $slug);
+
+        return new Response('tu as tapé "'.$text.'" dans la barre, hein ? C\'est la classe !');
     }
 
 

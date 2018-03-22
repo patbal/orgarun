@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}OrgaRun - Ajout Bénévole{% endblock %}
+
+{% block header %}
+    <div id="header" class="container jumbotron">
+        <h1>Ajout d'un bénévole</h1>
+    </div>
+{% endblock %}
+
+{% block body %}
+
+    {#{% form_theme form 'bootstrap_4_layout.html.twig' %}#}
+
+    <div class="container card">
+        <h5 class="card-title">
+            Veuillez rentrer les renseignements suivants :
+        </h5>
+        {{ form_start(form) }}
+        {{ form_row(form.nom) }}
+        {{ form_row(form.prenom) }}
+        {{ form_row(form.mail) }}
+        {{ form_row(form.dateNaissance) }}
+        {{ form_row(form.numeroPermisConduire) }}
+        {{ form_row(form.save) }}
+        {{ form_end(form) }}
+    </div>
+
+{% endblock %}
