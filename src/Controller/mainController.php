@@ -29,7 +29,7 @@ class mainController extends AbstractController
      */
     public function testslug($slug)
     {
-        return new Response('tu as tapé '.$slug.' dans la barre, hein ?');
+        return new Response('tu as tapé '.$slug.' dans la barre, hein ? C\'est la classe !);
     }
 
 
