@@ -17,9 +17,13 @@ class BenevolesController extends Controller
      */
     public function index()
     {
-        return $this->render('benevoles/index.html.twig', [
-            'controller_name' => 'BenevolesController',
-        ]);
+        // On récupère la query
+        $listeBenevoles = $this->getDoctrine()
+            ->getManager()
+            ->getRepository('App:Benevole')
+            ->ListeBenevoles()
+        ;
+        return $this->render('benevoles/index.html.twig', ['benevoles'=>$listeBenevoles]);
     }
 
     /**

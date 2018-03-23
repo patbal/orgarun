@@ -51,6 +51,11 @@ class Benevole
      */
     private $mail;
 
+    /**
+     * @ORM\Column(type="string", length=12, nullable=true)
+     */
+    private $telephone;
+
 
     /**
      * Benevole constructor.
@@ -151,6 +156,18 @@ class Benevole
     public function setMail(string $mail): self
     {
         $this->mail = $mail;
+
+        return $this;
+    }
+
+    public function getTelephone(): ?string
+    {
+        return $this->telephone;
+    }
+
+    public function setTelephone(?string $telephone): self
+    {
+        $this->telephone = $telephone;
 
         return $this;
     }

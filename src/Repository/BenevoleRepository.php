@@ -19,6 +19,14 @@ class BenevoleRepository extends ServiceEntityRepository
         parent::__construct($registry, Benevole::class);
     }
 
+    public function listeBenevoles()
+    {
+        $query = $this->createQueryBuilder('b')
+            ->orderBy('b.nom', 'ASC');
+
+        return $query->getQuery()->getResult();
+    }
+
 //    /**
 //     * @return Benevole[] Returns an array of Benevole objects
 //     */
