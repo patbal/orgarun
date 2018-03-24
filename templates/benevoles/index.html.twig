@@ -10,8 +10,21 @@
 
 {% block body %}
 
+    {% for message in app.session.flashbag.get('alert') %}
+        <div class="container alert alert-danger">{{ message }}</div>
+    {% endfor %}
+    {% for message in app.session.flashbag.get('danger') %}
+        <div class="container alert alert-danger">{{ message }}</div>
+    {% endfor %}
+    {% for message in app.session.flashbag.get('notice') %}
+        <div class="container alert alert-success">{{ message }}</div>
+    {% endfor %}
+
     <div class="card container bg-info">
-        <br><p class="text-light">Le fichier contient {{ benevoles|length }} bénévole(s)</p>
+        <br><p class="text-light">Le fichier contient {{ benevoles|length }} bénévole(s) <a href="{{ path('addBenevole') }}" class="btn btn-sm btn-success text-center">
+                <i class="fa fa-angle-double-left align-middle" aria-hidden="true"></i>
+                <span class="align-middle">Ajouter</span>
+            </a></p>
     </div>
     <br>
 
@@ -19,20 +32,24 @@
         <table class="table table-hover table-sm">
             <thead class="thead-dark">
                 <tr>
+                    <th></th>
                     <th>Nom</th>
                     <th>Prénom</th>
                     <th>Mail</th>
                     <th>Tel</th>
                     <th>N° PC</th>
+                    <th>Affectation</th>
                 </tr>
             </thead>
             {% for benevole in benevoles %}
                 <tr>
-                    <td>{{ benevole.nom }}</td>
+                    <td><a href="{{ path('viewBenevole', {'id': benevole.id}) }}" <span class="oi oi-brush"></span>
+                    </td><td>{{ benevole.nom }}</td>
                     <td>{{ benevole.prenom }}</td>
                     <td><a href="mailto:{{ benevole.mail }}">{{ benevole.mail }}</a></td>
                     <td>{{ benevole.telephone }}</td>
                     <td>{{ benevole.numeroPermisConduire }}</td>
+                    <td>{% if benevole.affectation is not null %}{{ benevole.affectation.nom }}{% else %}N/A{% endif %}</td>
                 </tr>
             {% endfor %}
         </table>

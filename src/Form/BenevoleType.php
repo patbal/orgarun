@@ -8,6 +8,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -21,12 +22,13 @@ class BenevoleType extends AbstractType
             //->add('dateInscription')
             ->add('dateNaissance', DateType::class, array(
                 'widget' => 'single_text',
-                'format' => 'dd/MM/yyyy',
-                'label' => 'Date de naissance',
+                //'format' => 'dd/MM/yyyy',
                 'attr' => ['class' => 'js-datepicker'],
-                'html5' => false))
+                //'label' => 'Date de naissance (jj/mm/aaaa)',
+                'html5' => true))
             ->add('numeroPermisConduire')
-            ->add('mail')
+            ->add('mail', EmailType::class)
+            ->add('telephone')
             ->add('affectation', EntityType::class, [
                 'label' => 'Affecté sur poste :',
                 'class' => Postes::class,

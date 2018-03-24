@@ -10,7 +10,17 @@
 
 {% block body %}
 
-    {#{% form_theme form 'bootstrap_4_layout.html.twig' %}#}
+    {% for message in app.session.flashbag.get('danger') %}
+        <div class="container alert alert-danger">{{ message }}</div>
+    {% endfor %}
+
+    <div class="container card">
+        <a href="{{ path('benevoles') }}" class="btn btn-sm btn-outline-danger text-center">
+            <i class="oi oi-arrow-circle-left" aria-hidden="true"></i>
+            <span>Retour à la liste</span>
+        </a>
+    </div>
+    <br>
 
     <div class="container card">
         <h5 class="card-title">
@@ -19,11 +29,17 @@
         {{ form_start(form) }}
         {{ form_row(form.nom) }}
         {{ form_row(form.prenom) }}
+        {{ form_row(form.telephone) }}
         {{ form_row(form.mail) }}
         {{ form_row(form.dateNaissance) }}
         {{ form_row(form.numeroPermisConduire) }}
         {{ form_row(form.save) }}
         {{ form_end(form) }}
+        <a href="{{ path('benevoles') }}" class="btn btn-sm btn-outline-danger text-center">
+            <i class="oi oi-arrow-circle-left" aria-hidden="true"></i>
+            <span>Retour à la liste</span>
+        </a>
     </div>
+
 
 {% endblock %}

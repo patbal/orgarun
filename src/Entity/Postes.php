@@ -38,6 +38,11 @@ class Postes
      */
     private $equipe;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $description;
+
     public function __construct()
     {
         $this->membres = new ArrayCollection();
@@ -111,6 +116,18 @@ class Postes
     public function setEquipe(?Equipes $equipe): self
     {
         $this->equipe = $equipe;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }

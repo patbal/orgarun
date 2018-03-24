@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use App\Service\telFormat;
 
 class BenevolesController extends Controller
 {
@@ -36,6 +37,28 @@ class BenevolesController extends Controller
 
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid())
         {
+            if($benevole->getTelephone())
+            {
+                $st = new telFormat();
+                $tel = $benevole->getTelephone();
+                $num = $st -> formatel($tel);
+                $benevole -> setTelephone($num);
+
+            }
+            $benevole->setNom(ucfirst(strtolower($benevole->getNom())));
+            $benevole->setPrenom(ucfirst(strtolower($benevole->getPrenom())));
+
+            $doublon = $this -> getDoctrine()->getManager()->getRepository('App:Benevole')
+                ->findOneBy(['nom'=> $benevole->getNom(), 'prenom' => $benevole->getPrenom()]);
+            if ($doublon){
+
+                $this -> addFlash('danger', 'Bénévole déjà enregistré... Bien essayé petit Scarabée.');
+
+                return $this -> render('benevoles/add.html.twig', [
+                    'benevole' => $benevole,
+                    'form' => $form -> createView()]);
+            }
+
             $em = $this -> getDoctrine() -> getManager();
             $em -> persist($benevole);
             $em -> flush();
