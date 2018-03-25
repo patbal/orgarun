@@ -43,6 +43,11 @@ class Postes
      */
     private $description;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $nbBenevoles;
+
     public function __construct()
     {
         $this->membres = new ArrayCollection();
@@ -128,6 +133,18 @@ class Postes
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getNbBenevoles(): ?int
+    {
+        return $this->nbBenevoles;
+    }
+
+    public function setNbBenevoles(?int $nbBenevoles): self
+    {
+        $this->nbBenevoles = $nbBenevoles;
 
         return $this;
     }

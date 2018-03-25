@@ -19,6 +19,17 @@ class PostesRepository extends ServiceEntityRepository
         parent::__construct($registry, Postes::class);
     }
 
+    /**
+     * @return mixed
+     */
+    public function listePostes()
+    {
+        return $this -> createQueryBuilder('p')
+            -> OrderBy('p.nom', 'ASC')
+            -> getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return Postes[] Returns an array of Postes objects
 //     */

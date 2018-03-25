@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}OrgaRun - Poste{% endblock %}
+
+{% block header %}
+    <div id="header" class="container jumbotron">
+        <h1>Fiche de poste - poste "{{ poste.nom }}"</h1>
+    </div>
+{% endblock %}
+
+{% block body %}
+
+    {% for message in app.session.flashbag.get('alert') %}
+        <div class="container alert alert-danger">{{ message }}</div>
+    {% endfor %}
+
+    {% for message in app.session.flashbag.get('notice') %}
+        <div class="container alert alert-success">{{ message }}</div>
+    {% endfor %}
+
+    <ul class=" container list-group">
+        <li class="list-group-item">Poste : {{ poste.nom }}</li>
+        <li class="list-group-item">Description : {{ poste.description }}</li>
+        <li class="list-group-item">Remarque : {{ poste.remarque }}</li>
+        <li class="list-group-item">Bénévoles requis : {{ poste.nbBenevoles }}</li>
+        <li class="list-group-item">Bénévoles affectés : {{ poste.membres|length }}</li>
+
+    </ul>
+
+    <br>
+    <div class="container">
+        <a href="{{ path('benevoles') }}" class="btn btn-sm btn-outline-secondary text-center">
+            <i class="fa fa-angle-double-left align-middle" aria-hidden="true"></i>
+            <span class="align-middle">Retour à la liste</span>
+        </a>
+        <a href="{{ path('editBenevole', {'id': poste.id}) }}" class="btn btn-sm btn-outline-secondary text-center">
+            <i class="fa fa-pencil-square-o align-middle" aria-hidden="true"></i>
+            <span class="align-middle">Modifier le bénévole</span>
+        </a>
+        <a href="{{ path('deleteBenevole', {'id': poste.id}) }}" class="btn btn-sm btn-outline-danger text-center" onclick="return confirm('ATTENTION : êtes vous certain de vouloir supprimer ce bénévole ? Cette action ne peut être annulée.');">
+            <i class="fa fa-trash-o align-middle" aria-hidden="true"></i>
+            <span class="align-middle">Supprimer le bénévole</span>
+        </a>
+    </div>
+
+{% endblock %}
+
+

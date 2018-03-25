@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}OrgaRun - Postes{% endblock %}
+
+{% block header %}
+    <div id="header" class="container jumbotron">
+        <h1>Liste des postes</h1>
+    </div>
+{% endblock %}
+
+{% block body %}
+
+    {% for message in app.session.flashbag.get('alert') %}
+        <div class="container alert alert-danger">{{ message }}</div>
+    {% endfor %}
+    {% for message in app.session.flashbag.get('danger') %}
+        <div class="container alert alert-danger">{{ message }}</div>
+    {% endfor %}
+    {% for message in app.session.flashbag.get('notice') %}
+        <div class="container alert alert-success">{{ message }}</div>
+    {% endfor %}
+
+    <div class="card container bg-info">
+        <br><p class="text-light"><a href="{{ path('addBenevole') }}" class="btn btn-sm btn-success text-center">
+                <i class="fa fa-angle-double-left align-middle" aria-hidden="true"></i>
+                <span class="align-middle">Ajouter</span>
+            </a></p>
+    </div>
+    <br>
+
+    <div class="container">
+        <table class="table table-hover table-sm">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Nom</th>
+                    <th>Description</th>
+                    <th>Bénévoles requis</th>
+                    <th>affectés</th>
+                    <th>Remarques</th>
+                </tr>
+            </thead>
+            {% for poste in listePostes %}
+                <tr>
+                    {#<td><a href="{{ path('viewBenevole', {'id': benevole.id}) }}" <span class="oi oi-brush"></span></a>{{ poste.nom }}</td>#}
+                    <td>{{ poste.nom }}</td>
+                    <td>{{ poste.description }}</td>
+                    <td>{{ poste.nbBenevoles }}</td>
+                    <td>{{ poste.membres|length }}</td>
+                    <td>{{ poste.remarque }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+
+
+
+{% endblock %}
