@@ -48,6 +48,11 @@ class Postes
      */
     private $nbBenevoles;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Benevole", inversedBy="postesEnCharge")
+     */
+    private $chefDePoste;
+
     public function __construct()
     {
         $this->membres = new ArrayCollection();
@@ -145,6 +150,18 @@ class Postes
     public function setNbBenevoles(?int $nbBenevoles): self
     {
         $this->nbBenevoles = $nbBenevoles;
+
+        return $this;
+    }
+
+    public function getChefDePoste(): ?Benevole
+    {
+        return $this->chefDePoste;
+    }
+
+    public function setChefDePoste(?Benevole $chefDePoste): self
+    {
+        $this->chefDePoste = $chefDePoste;
 
         return $this;
     }

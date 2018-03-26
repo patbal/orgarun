@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -62,6 +64,11 @@ class Benevole
      */
     private $telephone;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Postes", mappedBy="chefDePoste")
+     */
+    private $postesEnCharge;
+
 
     /**
      * Benevole constructor.
@@ -69,8 +76,9 @@ class Benevole
     public function __construct()
     {
         $this->dateInscription = new \DateTime();
-        $this->nom = 'John';
-        $this->prenom = 'Doe';
+        $this->nom = 'Doe';
+        $this->prenom = 'John';
+        $this->postesEnCharge = new ArrayCollection();
     }
 
 
@@ -174,6 +182,37 @@ class Benevole
     public function setTelephone(?string $telephone): self
     {
         $this->telephone = $telephone;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Postes[]
+     */
+    public function getPostesEnCharge(): Collection
+    {
+        return $this->postesEnCharge;
+    }
+
+    public function addPostesEnCharge(Postes $postesEnCharge): self
+    {
+        if (!$this->postesEnCharge->contains($postesEnCharge)) {
+            $this->postesEnCharge[] = $postesEnCharge;
+            $postesEnCharge->setChefDePoste($this);
+        }
+
+        return $this;
+    }
+
+    public function removePostesEnCharge(Postes $postesEnCharge): self
+    {
+        if ($this->postesEnCharge->contains($postesEnCharge)) {
+            $this->postesEnCharge->removeElement($postesEnCharge);
+            // set the owning side to null (unless already changed)
+            if ($postesEnCharge->getChefDePoste() === $this) {
+                $postesEnCharge->setChefDePoste(null);
+            }
+        }
 
         return $this;
     }
