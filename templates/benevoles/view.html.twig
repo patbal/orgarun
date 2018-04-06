@@ -27,7 +27,7 @@
     <ul class="container list-group">
         <li class="list-group-item">Date d'inscription : {{ benevole.dateInscription|date('d/m/Y') }}</li>
         {% if benevole.affectation %}
-            <li class="list-group-item">Affecté(e) au poste <a href="{{ path('editBenevole', {'id' : benevole.id })}}">{{ benevole.affectation.nom }}</a></li>
+            <li class="list-group-item">Affecté(e) au poste <a href="{{ path('viewPoste', {'id' : benevole.affectation.nom })}}">{{ benevole.affectation.nom }}</a></li>
         {% else %}
             <li class="list-group-item">Bénévole "libre" - <a href="{{ path('editBenevole', {'id' : benevole.id })}}">Affecter un poste maintenant</a></li>
         {% endif %}

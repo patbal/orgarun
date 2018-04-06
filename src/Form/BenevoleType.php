@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Benevole;
 use App\Entity\Postes;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -35,6 +36,15 @@ class BenevoleType extends AbstractType
                 'choice_label' => 'nom',
                 'multiple' => false,
                 'expanded' => false])
+            ->add('postesEnCharge',   EntityType::class, array(
+                'class'        => 'App\Entity\Postes',
+                'query_builder' => function (EntityRepository $er) {return $er->createQueryBuilder('p')
+                    ->orderBy('p.nom', 'ASC');},
+                'choice_label' => 'nom',
+                'multiple'     => 'true',
+                'expanded'     => 'true',
+                'label' => 'Postes en charge',
+                'required' => false))
             ->add('save', submitType::class, ['label' => 'Enregistrer'])
         ;
     }
@@ -47,23 +57,4 @@ class BenevoleType extends AbstractType
     }
 
 
-    /*public function buildForm(FormBuilderInterface $builder, array $options)
-    {
-        $builder
-            ->add('numeroFacture', TextType::class, ['label'=>'N° Facture'])
-            ->add('montantFacture', MoneyType::class, ['label'=>'Montant €HT', 'currency'=>'EUR'])
-            ->add('dateFacture', DateType::class, array(
-                'widget' => 'single_text',
-                'format' => 'dd/MM/yyyy',
-                'label' => 'Date Facture',
-                'attr' => ['class' => 'js-datepicker'],
-                'html5' => false))
-            ->add('loueur', EntityType::class, array(
-                'label'=>'Loueur',
-                'class'=>'PB\CamionBundle\Entity\Loueur',
-                'choice_label' => 'nom',
-                'multiple'     => false,
-                'expanded'     => false))
-            ->add('Save',                           SubmitType::class);
-    }*/
 }

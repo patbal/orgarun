@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\JoinColumn;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PostesRepository")
@@ -49,13 +50,15 @@ class Postes
     private $nbBenevoles;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Benevole", inversedBy="postesEnCharge")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Benevole", mappedBy="postesEnCharge")
      */
     private $chefDePoste;
+
 
     public function __construct()
     {
         $this->membres = new ArrayCollection();
+        $this->chefDePoste = new ArrayCollection();
     }
 
     public function getId()
@@ -154,15 +157,32 @@ class Postes
         return $this;
     }
 
-    public function getChefDePoste(): ?Benevole
+    /**
+     * @return Collection|Benevole[]
+     */
+    public function getChefDePoste(): Collection
     {
         return $this->chefDePoste;
     }
 
-    public function setChefDePoste(?Benevole $chefDePoste): self
+    public function addChefDePoste(Benevole $chefDePoste): self
     {
-        $this->chefDePoste = $chefDePoste;
+        if (!$this->chefDePoste->contains($chefDePoste)) {
+            $this->chefDePoste[] = $chefDePoste;
+            $chefDePoste->addPostesEnCharge($this);
+        }
 
         return $this;
     }
+
+    public function removeChefDePoste(Benevole $chefDePoste): self
+    {
+        if ($this->chefDePoste->contains($chefDePoste)) {
+            $this->chefDePoste->removeElement($chefDePoste);
+            $chefDePoste->removePostesEnCharge($this);
+        }
+
+        return $this;
+    }
+
 }

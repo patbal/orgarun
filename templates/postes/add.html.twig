@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}OrgaRun - Ajout Poste{% endblock %}
+
+{% block header %}
+    <div id="header" class="container jumbotron">
+        <h1>Ajout d'un poste</h1>
+    </div>
+{% endblock %}
+
+{% block body %}
+
+    {% for message in app.session.flashbag.get('danger') %}
+        <div class="container alert alert-danger">{{ message }}</div>
+    {% endfor %}
+
+    <div class="container card">
+        <a href="{{ path('postes') }}" class="btn btn-sm btn-outline-danger text-center">
+            <i class="oi oi-arrow-circle-left" aria-hidden="true"></i>
+            <span>Retour à la liste</span>
+        </a>
+    </div>
+    <br>
+
+    <div class="container card">
+        <h5 class="card-title">
+            Veuillez rentrer les renseignements suivants :
+        </h5>
+        {{ form_start(form) }}
+        {{ form_row(form.equipe) }}
+        {{ form_row(form.nom) }}
+        {{ form_row(form.description) }}
+        {{ form_row(form.remarque) }}
+        {{ form_row(form.nbBenevoles) }}
+        {#{{ form_row(form.chefDePoste) }}#}
+        {{ form_row(form.save) }}
+        {{ form_end(form) }}
+        <a href="{{ path('postes') }}" class="btn btn-sm btn-outline-danger text-center">
+            <i class="oi oi-arrow-circle-left" aria-hidden="true"></i>
+            <span>Retour à la liste</span>
+        </a>
+    </div>
+
+
+{% endblock %}

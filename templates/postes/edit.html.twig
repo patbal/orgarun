@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}OrgaRun - Edition Poste{% endblock %}
+
+{% block header %}
+    <div id="header" class="container jumbotron">
+        <h1>Modification poste : {{ poste.nom }}</h1>
+    </div>
+{% endblock %}
+
+{% block body %}
+
+    <div class="container card">
+        <h5 class="card-title">
+            Veuillez rentrer les renseignements suivants :
+        </h5>
+        {{ form_start(form) }}
+        {{ form_row(form.equipe) }}
+        {{ form_row(form.nom) }}
+        {{ form_row(form.remarque) }}
+        {{ form_row(form.description) }}
+        {{ form_row(form.nbBenevoles) }}
+        {#{{ form_row(form.chefDePoste) }}#}
+        {{ form_row(form.save) }}
+        {{ form_end(form) }}
+    </div>
+
+{% endblock %}

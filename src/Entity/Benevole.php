@@ -65,7 +65,7 @@ class Benevole
     private $telephone;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Postes", mappedBy="chefDePoste")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Postes", inversedBy="chefDePoste")
      */
     private $postesEnCharge;
 
@@ -198,7 +198,6 @@ class Benevole
     {
         if (!$this->postesEnCharge->contains($postesEnCharge)) {
             $this->postesEnCharge[] = $postesEnCharge;
-            $postesEnCharge->setChefDePoste($this);
         }
 
         return $this;
@@ -208,12 +207,10 @@ class Benevole
     {
         if ($this->postesEnCharge->contains($postesEnCharge)) {
             $this->postesEnCharge->removeElement($postesEnCharge);
-            // set the owning side to null (unless already changed)
-            if ($postesEnCharge->getChefDePoste() === $this) {
-                $postesEnCharge->setChefDePoste(null);
-            }
         }
 
         return $this;
     }
+
+
 }

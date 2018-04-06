@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}OrgaRun - Ajout Bénévole{% endblock %}
+{% block title %}OrgaRun - Edition Bénévole{% endblock %}
 
 {% block header %}
     <div id="header" class="container jumbotron">
@@ -22,7 +22,17 @@
         {{ form_row(form.dateNaissance) }}
         {{ form_row(form.numeroPermisConduire) }}
         {{ form_row(form.affectation) }}
+        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+            Chef de poste -> cliquez ici
+        </button>
+        <div class="collapse" id="collapseExample">
+            <div class="card card-body">
+                {{ form_row(form.postesEnCharge) }}
+            </div>
+        </div>
+        <p>
         {{ form_row(form.save) }}
+        </p>
         {{ form_end(form) }}
     </div>
 

@@ -10,9 +10,9 @@
             <link rel="stylesheet" href="{{ asset('CSS/orgarun.css') }}">
             {#<link href="public/open-iconic/font/css/open-iconic-bootstrap.css" rel="stylesheet">#}
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/open-iconic/1.1.1/font/css/open-iconic-bootstrap.min.css" integrity="sha256-BJ/G+e+y7bQdrYkS2RBTyNfBHpA9IuGaPmf9htub5MQ=" crossorigin="anonymous" />
-{#
-            <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.0/css/bootstrap-datepicker.css">
-#}
+            {#<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.0/css/bootstrap-datepicker.css"#}
+            <script src="https://cdn.pubnub.com/sdk/javascript/pubnub.4.19.0.min.js"></script>
+
         {% endblock %}
     </head>
     <body>
@@ -50,7 +50,7 @@
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="{{ path('postes') }}">Liste</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="{{ path('addBenevole') }}">Ajouter</a>
+                                <a class="dropdown-item" href="{{ path('addPoste') }}">Ajouter</a>
                             </div>
                         </li>
                     </ul>
@@ -75,10 +75,11 @@
             <script>
                 $(document).ready(function() {
                     // you may need to change this code if you are not using Bootstrap Datepicker
-                    $('.js-datepicker').datepicker({
-                        format: 'yyyy-mm-dd'
-                    });
+                    $('.js-datepicker').datepicker({format: 'yyyy-mm-dd'});
                 });
+            </script>
+            <script async defer
+                    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAozHkloPGXM2YDOuEelPIhg3HtGYOA3MA&callback=initMap">
             </script>
         {% endblock %}
     </body>

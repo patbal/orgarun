@@ -91,18 +91,23 @@ class BenevolesController extends Controller
     public function editBenevole(Benevole $benevole, $id, Request $request)
     {
         if (null === $benevole) {
-            throw new NotFoundHttpException("Ce bénévole n'a pas été enregistré");
+            throw new NotFoundHttpException("Ce bénévole n'existe pas");
         }
 
         $form = $this -> get('form.factory') -> create(BenevoleType::class, $benevole);
 
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid())
         {
+            $st = new telFormat();
+            $tel = $benevole->getTelephone();
+            $num = $st -> formatel($tel);
+            $benevole -> setTelephone($num);
+
             $em = $this -> getDoctrine() -> getManager();
             $em -> persist($benevole);
             $em -> flush();
 
-            $request->getSession()->getFlashBag()->add('notice', 'Bénévole modifié');
+            $this->addFlash('notice', 'Bénévole modifié');
 
             return $this -> redirectToRoute('viewBenevole', ['id'=>$benevole->getId()]);
         }

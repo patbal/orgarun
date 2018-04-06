@@ -24,23 +24,28 @@
         {% if poste.remarque %}
         <li class="list-group-item">Remarque : {{ poste.remarque }}</li>
         {% endif %}
+        {% if poste.chefDePoste %}
+            <li class="list-group-item font-italic">Chef de poste : {% for chef in poste.chefDePoste %}<a href="{{ path('viewBenevole', {'id' : chef.id}) }}">{{ chef.prenom }} {{ chef.nom }}</a>{% endfor %}</li>
+        {% endif %}
     </ul>
 
     <br>
 
-    <div class="container card text-light {% if poste.membres|length ==0 %}bg-danger{% elseif poste.membres|length == poste.nbBenevoles %}bg-success{% else %}bg-warning{% endif %}">
-        <h5 class="card-title">Bénévoles</h5>
-        <h6 class="card-subtitle mb-2">Requis : {{ poste.nbBenevoles }}   —   Affectés : {{ poste.membres|length }}</span></h6>
-        <div class="card-body">
-            <div class="card-text row">
+    {% if poste.nbBenevoles %}
+        <div class="container card text-light {% if poste.membres|length ==0 %}bg-danger{% elseif poste.membres|length == poste.nbBenevoles %}bg-success{% else %}bg-warning{% endif %}">
+            <h5 class="card-title">Bénévoles</h5>
+            <h6 class="card-subtitle mb-2">Requis : {{ poste.nbBenevoles }}   —   Affectés : {{ poste.membres|length }}</span></h6>
+            <div class="card-body">
+                <div class="card-text row">
 
-                    {% for membre in poste.membres %}
-                        {{ membre.prenom }} {{ membre.nom|upper }}<br>
-                    {% endfor %}
+                        {% for membre in poste.membres %}
+                            {{ membre.prenom }} {{ membre.nom|upper }}<br>
+                        {% endfor %}
 
+                </div>
             </div>
         </div>
-    </div>
+    {% endif %}
 
     <br>
     <div class="container">
@@ -48,9 +53,9 @@
             <i class="fa fa-angle-double-left align-middle" aria-hidden="true"></i>
             <span class="align-middle">liste des postes</span>
         </a>
-        <a href="{{ path('editBenevole', {'id': poste.id}) }}" class="btn btn-sm btn-outline-secondary text-center">
+        <a href="{{ path('editPoste', {'id': poste.id}) }}" class="btn btn-sm btn-outline-secondary text-center">
             <i class="fa fa-pencil-square-o align-middle" aria-hidden="true"></i>
-            <span class="align-middle">Modifier le bénévole</span>
+            <span class="align-middle">Modifier le poste</span>
         </a>
         <a href="{{ path('deleteBenevole', {'id': poste.id}) }}" class="btn btn-sm btn-outline-danger text-center" onclick="return confirm('ATTENTION : êtes vous certain de vouloir supprimer ce bénévole ? Cette action ne peut être annulée.');">
             <i class="fa fa-trash-o align-middle" aria-hidden="true"></i>
