@@ -9,7 +9,9 @@
 namespace App\Controller;
 
 
+use App\Entity\Map;
 use App\Entity\Postes;
+use App\Form\MapType;
 use App\Form\PostesType;
 use http\Env\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -102,6 +104,33 @@ class PostesController extends AbstractController
         }
 
         return $this -> render('postes/edit.html.twig', ['poste' => $poste, 'form' => $form->createView()]);
+    }
+
+    /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @Route("/postes/map/{id}")
+     */
+    public function add_map(Postes $poste, $id, Request $request)
+    {
+        $map=new Map();
+        $form = $this -> get('form.factory') -> create(MapType::class, $map);
+
+        if ($request->isMethod('POST') && $form -> handleRequest($request) -> isValid())
+        {
+            $map -> setPoste($poste);
+            $poste -> setMap($map);
+            $em = $this -> getDoctrine()-> getManager();
+            $em -> persist($poste);
+            $em -> persist($map);
+            $em -> flush();
+            $this -> addFlash('Notice', 'Carte associée au poste "'.$poste->getNom());
+
+            return $this -> redirectToRoute('viewPoste', ['id'=>$poste->getId()]);
+        }
+
+        return $this -> render('postes/map.html.twig', ['poste' => $poste, 'form' => $form -> createView()]);
+
+
     }
 
 }

@@ -54,11 +54,23 @@ class Postes
      */
     private $chefDePoste;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Map", inversedBy="poste", cascade={"persist", "remove"})
+     */
+    private $map;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Doc", inversedBy="poste")
+     */
+    private $docs;
+
+
 
     public function __construct()
     {
         $this->membres = new ArrayCollection();
         $this->chefDePoste = new ArrayCollection();
+        $this->docs = new ArrayCollection();
     }
 
     public function getId()
@@ -184,5 +196,44 @@ class Postes
 
         return $this;
     }
+
+    public function getMap(): ?Map
+    {
+        return $this->map;
+    }
+
+    public function setMap(?Map $map): self
+    {
+        $this->map = $map;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Doc[]
+     */
+    public function getDocs(): Collection
+    {
+        return $this->docs;
+    }
+
+    public function addDoc(Doc $doc): self
+    {
+        if (!$this->docs->contains($doc)) {
+            $this->docs[] = $doc;
+        }
+
+        return $this;
+    }
+
+    public function removeDoc(Doc $doc): self
+    {
+        if ($this->docs->contains($doc)) {
+            $this->docs->removeElement($doc);
+        }
+
+        return $this;
+    }
+
 
 }

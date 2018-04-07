@@ -1,0 +1,91 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}OrgaRun - Ajout carte{% endblock %}
+
+{% block header %}
+    <div id="header" class="container jumbotron">
+        <h1>Ajouter une carte</h1>
+    </div>
+{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+        <div id="map" style="width:600px;height:400px"></div>
+    </div>
+
+    <script>
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: 43.785867, lng: 1.354020},
+                zoom: 14
+            });
+            var infoWindow = new google.maps.InfoWindow({map: map});
+
+
+            // Try HTML5 geolocation.
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                var pos = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+
+                infoWindow.setPosition(pos);
+                infoWindow.setContent('Location found.');
+                map.setCenter(pos);
+            }, function() {
+                handleLocationError(true, infoWindow, map.getCenter());
+            });
+        } else {
+            // Browser doesn't support Geolocation
+            handleLocationError(false, infoWindow, map.getCenter());
+        }
+            google.maps.event.addListener(map, 'click', function(event) {
+                placeMarker(event.latLng);
+            });
+
+            var marker;
+            function placeMarker(location) {
+                if(marker){ //on vérifie si le marqueur existe
+                    marker.setPosition(location); //on change sa position
+                }else{
+                    marker = new google.maps.Marker({ //on créé le marqueur
+                        position: location,
+                        title:"Hello World!",
+                        label:'P',
+                        map: map
+
+                    });
+                }
+                // inputLatitude.value=location.lat();
+                // inputLongitude.value=location.lng();
+
+                document.getElementById("latitude").value=location.lat();
+                document.getElementById("longitude").value=location.lng();
+            }
+        }
+
+        function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+            infoWindow.setPosition(pos);
+            infoWindow.setContent(browserHasGeolocation ?
+                'Error: The Geolocation service failed.' :
+                'Error: Your browser doesn\'t support geolocation.');
+        }
+
+
+    </script>
+
+    <br>
+    <div class="container">
+        {{ form_start(form) }}
+        {{ form_row(form.lat, {'id': 'latitude'}) }}
+        {{ form_row(form.lng, {'id': 'longitude'}) }}
+        {{ form_row(form.save) }}
+        {{ form_end(form) }}
+    </div>
+
+
+
+
+{% endblock %}
