@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>carte poste {{ map.poste.nom }}</title>
+    {% block stylesheets %}
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="{{ asset('CSS/orgarun.css') }}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/open-iconic/1.1.1/font/css/open-iconic-bootstrap.min.css" integrity="sha256-BJ/G+e+y7bQdrYkS2RBTyNfBHpA9IuGaPmf9htub5MQ=" crossorigin="anonymous" />
+
+    {% endblock %}
+</head>
+<body>
+{% block body %}
+
+    <h3 class="container bg-dark text-light text-center">Carte poste {{ map.poste.nom }}</h3>
+    <div class="container" id="loc" style="width: 800px;height:700px"></div>
+
+    <script>
+        function initMap() {
+            var myLatLng = {lat: {{ map.lat}}, lng: {{ map.lng }} };
+
+        var map = new google.maps.Map(document.getElementById('loc'), {
+        zoom: 15,
+        center: myLatLng,
+        mapTypeId: google.maps.MapTypeId.HYBRID
+        });
+
+        var marker = new google.maps.Marker({
+        position: myLatLng,
+        map: map,
+        label: 'P',
+        title: 'Position du poste'
+        });
+        }
+    </script>
+
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAozHkloPGXM2YDOuEelPIhg3HtGYOA3MA&callback=initMap">
+    </script>
+
+{% endblock %}
+
+
+</body>
+</html>

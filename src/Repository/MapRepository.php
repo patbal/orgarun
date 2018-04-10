@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Map;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -18,6 +19,15 @@ class MapRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Map::class);
     }
+
+    public function findOneByPosteId($value): ?Map
+    {
+        return $this->createQueryBuilder('m')
+                ->andWhere('m.id = :val')
+                ->setParameter('val', $value)
+                ->getQuery()
+                ->getOneOrNullResult();
+        }
 
 //    /**
 //     * @return Map[] Returns an array of Map objects

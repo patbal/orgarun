@@ -24,28 +24,49 @@
         {% if poste.remarque %}
         <li class="list-group-item">Remarque : {{ poste.remarque }}</li>
         {% endif %}
-        {% if poste.chefDePoste %}
-            <li class="list-group-item font-italic">Chef de poste : {% for chef in poste.chefDePoste %}<a href="{{ path('viewBenevole', {'id' : chef.id}) }}">{{ chef.prenom }} {{ chef.nom }}</a>{% endfor %}</li>
+        {% if poste.chefDePoste is not empty %}
+        <li class="list-group-item font-italic">Chef de poste : {% for chef in poste.chefDePoste %}<a href="{{ path('viewBenevole', {'id' : chef.id}) }}">{{ chef.prenom }} {{ chef.nom }}</a>{% endfor %}</li>
         {% endif %}
     </ul>
 
     <br>
 
     {% if poste.nbBenevoles %}
-        <div class="container card text-light {% if poste.membres|length ==0 %}bg-danger{% elseif poste.membres|length == poste.nbBenevoles %}bg-success{% else %}bg-warning{% endif %}">
-            <h5 class="card-title">Bénévoles</h5>
-            <h6 class="card-subtitle mb-2">Requis : {{ poste.nbBenevoles }}   —   Affectés : {{ poste.membres|length }}</span></h6>
-            <div class="card-body">
-                <div class="card-text row">
+        <div class="container">
+            <div class="row">
+                <div class="col-1 card text-light {% if poste.membres|length ==0 %}bg-danger{% elseif poste.membres|length == poste.nbBenevoles %}bg-success{% else %}bg-warning{% endif %}"> </div>
+                <div class="col-5">
+                    <h5 class="card-title">Bénévoles</h5>
+                    <h6 class="card-subtitle mb-2">Requis : {{ poste.nbBenevoles }}   —   Affectés : {{ poste.membres|length }}</span></h6>
+                    <div class="card-body">
+                        <div class="card-text row">
 
-                        {% for membre in poste.membres %}
-                            {{ membre.prenom }} {{ membre.nom|upper }}<br>
-                        {% endfor %}
+                                {% for membre in poste.membres %}
+                                    {{ membre.prenom }} {{ membre.nom|upper }}<br>
+                                {% endfor %}
 
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    {% if map %}
+                        <div><a href="{{ path('viewMap', {'id' : map.id}) }}" target="_blank">Voir la carte</a></div>
+                    {% endif %}
+                    <div id="loc" style="width:300px;height:200px"><a class="btn btn-outline-secondary" href="{{ path('addMap', {'id' : poste.id})}}">Insérer une carte</a></div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="container">
+            <div class="row">
+                <div class="col-1">
+                    <div id="loc" style="width:300px;height:200px"><a class="btn btn-outline-secondary" href="{{ path('addMap', {'id' : poste.id})}}">Insérer une carte</a></div>
                 </div>
             </div>
         </div>
     {% endif %}
+
+
 
     <br>
     <div class="container">
@@ -57,11 +78,32 @@
             <i class="fa fa-pencil-square-o align-middle" aria-hidden="true"></i>
             <span class="align-middle">Modifier le poste</span>
         </a>
-        <a href="{{ path('deleteBenevole', {'id': poste.id}) }}" class="btn btn-sm btn-outline-danger text-center" onclick="return confirm('ATTENTION : êtes vous certain de vouloir supprimer ce bénévole ? Cette action ne peut être annulée.');">
+        <a href="{{ path('deletePoste', {'id': poste.id}) }}" class="btn btn-sm btn-outline-danger text-center" onclick="return confirm('ATTENTION : êtes vous certain de vouloir supprimer ce poste ? Cette action ne peut être annulée.');">
             <i class="fa fa-trash-o align-middle" aria-hidden="true"></i>
-            <span class="align-middle">Supprimer le bénévole</span>
+            <span class="align-middle">Supprimer ce poste</span>
         </a>
     </div>
+
+    {%  if map %}
+    <script>
+        function initMap() {
+            var myLatLng = {lat: {{ map.lat }}, lng: {{ map.lng }} };
+
+        var map = new google.maps.Map(document.getElementById('loc'), {
+        zoom: 15,
+        center: myLatLng,
+        mapTypeId: google.maps.MapTypeId.HYBRID
+        });
+
+        var marker = new google.maps.Marker({
+        position: myLatLng,
+        map: map,
+        label: 'P',
+        title: 'Position du poste'
+        });
+        }
+    </script>
+    {% endif %}
 
 {% endblock %}
 

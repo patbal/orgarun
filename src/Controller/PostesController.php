@@ -41,7 +41,8 @@ class PostesController extends AbstractController
         if (null === $poste) {
             throw new NotFoundHttpException("Ce poste n'existe pas");
         }
-        return $this->render('postes/view.html.twig', ['poste'=>$poste]);
+        $map = $poste->getMap();
+        return $this->render('postes/view.html.twig', ['map' => $map, 'poste'=>$poste]);
     }
 
     /**
@@ -107,9 +108,9 @@ class PostesController extends AbstractController
     }
 
     /**
-     * @return \Symfony\Component\HttpFoundation\Response
-     * @Route("/postes/map/{id}")
-     */
+ * @return \Symfony\Component\HttpFoundation\Response
+ * @Route("/map/add/{id}", name="addMap")
+ */
     public function add_map(Postes $poste, $id, Request $request)
     {
         $map=new Map();
@@ -128,9 +129,40 @@ class PostesController extends AbstractController
             return $this -> redirectToRoute('viewPoste', ['id'=>$poste->getId()]);
         }
 
+
         return $this -> render('postes/map.html.twig', ['poste' => $poste, 'form' => $form -> createView()]);
 
 
+    }
+
+    /**
+     * @Route("/map/view/{id}", name="viewMap")
+     */
+    public function viewMap(Map $map, $id)
+    {
+        if (null === $map) {
+            throw new NotFoundHttpException("Cette carte n'a pas été définie");
+        }
+
+        return $this->render('postes/viewMap.html.twig', ['map' => $map]);
+    }
+
+    /**
+     * @param Postes $poste
+     * @param $id
+     * @param Request $request
+     * @Route("/postes/delete/{id}", name="deletePoste")
+     */
+    public function deletePoste(Postes $poste, $id, Request $request)
+    {
+        if (null === $poste) {
+            throw new NotFoundHttpException("Ce poste n'existe pas");
+        }
+        $em = $this->getDoctrine()->getManager();
+        $em -> remove($poste);
+        $this-> addflash('danger', 'Le poste '.$poste->getNom().' a été retiré de la liste des postes');
+        $em -> flush();
+        return $this -> render(':postes:index.html.twig');
     }
 
 }

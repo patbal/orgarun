@@ -127,7 +127,7 @@ class BenevolesController extends Controller
 
         $em = $this->getDoctrine()->getManager();
         $em -> remove($benevole);
-        $request->getSession()->getFlashBag()-> add('danger', $benevole->getPrenom().' '.$benevole->getPrenom().' a été retiré de la liste des bénévoles');
+        $this-> addflash('danger', $benevole->getPrenom().' '.$benevole->getPrenom().' a été retiré de la liste des bénévoles');
         $em -> flush();
 
     }

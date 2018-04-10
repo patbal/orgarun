@@ -27,8 +27,9 @@ class PostesRepository extends ServiceEntityRepository
         return $this -> createQueryBuilder('p')
             -> OrderBy('p.nom', 'ASC')
             -> getQuery()
-            ->getResult();
+            -> getResult();
     }
+
 
 //    /**
 //     * @return Postes[] Returns an array of Postes objects
