@@ -37,7 +37,7 @@ class BenevolesController extends Controller
 
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid())
         {
-            if($benevole->getTelephone())
+            if(!is_null($benevole->getTelephone()))
             {
                 $st = new telFormat();
                 $tel = $benevole->getTelephone();

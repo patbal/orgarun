@@ -33,9 +33,10 @@
                 <tr>
                     <th>Nom</th>
                     <th>Description</th>
-                    <th>Bénévoles requis</th>
-                    <th>affectés</th>
+                    {#<th>Bénévoles requis</th>
+                    <th>affectés</th>#}
                     <th>Remarques</th>
+                    <th class="text-center">bénévoles affectés / requis</th>
                 </tr>
             </thead>
             {% for poste in listePostes %}
@@ -43,9 +44,10 @@
                     {#<td><a href="{{ path('viewBenevole', {'id': benevole.id}) }}" <span class="oi oi-brush"></span></a>{{ poste.nom }}</td>#}
                     <td><a href="{{ path('viewPoste', {'id':poste.id})}}">{{ poste.nom }}</a></td>
                     <td>{{ poste.description }}</td>
-                    <td>{{ poste.nbBenevoles }}</td>
-                    <td>{{ poste.membres|length }}</td>
+                    {#<td>{{ poste.nbBenevoles }}</td>
+                    <td>{{ poste.membres|length }}</td>#}
                     <td>{{ poste.remarque }}</td>
+                    <td class="{% if poste.membres|length ==0 %}text-danger{% elseif poste.membres|length == poste.nbBenevoles %}text-success{% else %}text-warning{% endif %} text-center">{{ poste.membres|length }}/{{ poste.nbBenevoles }}</td>
                 </tr>
             {% endfor %}
         </table>

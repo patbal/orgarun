@@ -119,9 +119,9 @@ class PostesController extends AbstractController
         if ($request->isMethod('POST') && $form -> handleRequest($request) -> isValid())
         {
             $map -> setPoste($poste);
-            $poste -> setMap($map);
+            //$poste -> setMap($map);
             $em = $this -> getDoctrine()-> getManager();
-            $em -> persist($poste);
+            //$em -> persist($poste);
             $em -> persist($map);
             $em -> flush();
             $this -> addFlash('Notice', 'Carte associée au poste "'.$poste->getNom());
@@ -163,6 +163,30 @@ class PostesController extends AbstractController
         $this-> addflash('danger', 'Le poste '.$poste->getNom().' a été retiré de la liste des postes');
         $em -> flush();
         return $this -> render(':postes:index.html.twig');
+    }
+
+    /**
+     * @param Postes $poste
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @Route("/map/delete/{id}", name="deleteMap")
+     */
+    public function deleteMap(Postes $poste, $id)
+    {
+        $map=$poste->getMap();
+        if (null === $map) {
+            throw new NotFoundHttpException("Cette carte est introuvable - veuillez passer par le bouton dédié");
+        }
+
+        $poste->setMap(null);
+        $em = $this -> getDoctrine() -> getManager();
+        $em -> persist($poste);
+        $em -> flush();
+        $em -> remove($map);
+        $em -> flush();
+        $this -> addFlash('notice', 'carte supprimée');
+
+        return $this -> redirectToRoute('viewPoste', ['id'=>$poste->getId()]);
     }
 
 }

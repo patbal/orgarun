@@ -23,6 +23,9 @@
         <li class="list-group-item">Prénom : {{ benevole.prenom }}</li>
         <li class="list-group-item">Né le : {{ benevole.dateNaissance|date('d/m/Y') }}</li>
         <li class="list-group-item">Adresse e-mail : {{ benevole.mail }}</li>
+        {% if benevole.telephone %}<li class="list-group-item">N° de téléphone : {{ benevole.telephone }}</li>{% endif %}
+        {% if benevole.numeroPermisConduire %}<li class="list-group-item">N° de permis de conduire : {{ benevole.numeroPermisConduire }}</li>{% endif %}
+
     </ul>
     <ul class="container list-group">
         <li class="list-group-item">Date d'inscription : {{ benevole.dateInscription|date('d/m/Y') }}</li>

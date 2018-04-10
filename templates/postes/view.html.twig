@@ -50,7 +50,7 @@
                 </div>
                 <div class="col-6">
                     {% if map %}
-                        <div><a href="{{ path('viewMap', {'id' : map.id}) }}" target="_blank">Voir la carte</a></div>
+                            <div><a href="{{ path('viewMap', {'id' : map.id}) }}" target="_blank">Voir la carte</a> / <a href="{{ path('deleteMap', {'id' : poste.id}) }}">supprimer cette carte</a></div>
                     {% endif %}
                     <div id="loc" style="width:300px;height:200px"><a class="btn btn-outline-secondary" href="{{ path('addMap', {'id' : poste.id})}}">Insérer une carte</a></div>
                 </div>
